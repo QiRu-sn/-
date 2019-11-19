@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="css/reset.css">
     <link rel="stylesheet" type="text/css" href="css/iconfont.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" href="./js/bootstrap/css/bootstrap.min.css">
 </head>
 
 <body>
@@ -30,8 +31,29 @@
         </div>
 
     </div>
+    <div id='myModal' class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">系统提示</h4>
+                </div>
+                <div class="modal-body">
+                    <p id='tishi'>输入不能为空&hellip;</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
 
     <script src="./js/jquery-1.12.4.min.js"></script>
+    <script src="./js/bootstrap/js/bootstrap.min.js"></script>
+    <script src="./js/utils/user.js"></script>
     <script>
         $('#btnLogin').click(function() {
             // 获取用户名及密码
@@ -39,20 +61,22 @@
             var myPwd = $('#myPwd').val().trim();
             // 判断输入是否为空
             if (myName == '' || myPwd == '') {
-                alert('不能为空');
+                // alert('不能为空');
+                $('#myModal').modal('show');
                 return;
             }
-            // 发送请求
-            $.post(
-                'http://localhost:8000/admin/login', {
-                    user_name: myName,
-                    password: myPwd,
-                },
-                function(res) {
-                    res.code == 200 ? location.href = './index.html' : alert(res.msg) & $('#myName').val('') & $('#myPwd').val('');
-
+            // 用户登录
+            user.login(myName, myPwd, function(res) {
+                // 判断账号密码是否正确，正确则登录，否则清空重新输入
+                if (res.code == 200) {
+                    location.href = './index.html';
+                } else {
+                    $('#tishi').text(res.msg);
+                    $('#myModal').modal('show');
+                    $('#myName').val('');
+                    $('#myPwd').val('')
                 }
-            )
+            });
 
         })
     </script>
