@@ -20,7 +20,16 @@ var user = {
             URL + '/admin/logout',
             function(res) {
                 callback(res);
-                res.code == 200 ? location.href = './login.html' : '';
+            }
+        )
+    },
+
+    // 获取管理员信息并显示在主页中
+    getInfo: function(callback) {
+        $.get(
+            URL + '/admin/getuser',
+            function(res) {
+                callback(res);
             }
         )
     }
