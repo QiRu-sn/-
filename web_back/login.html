@@ -53,6 +53,7 @@
 
     <script src="./js/jquery-1.12.4.min.js"></script>
     <script src="./js/bootstrap/js/bootstrap.min.js"></script>
+    <script src="./js/utils/config.js"></script>
     <script src="./js/utils/user.js"></script>
     <script>
         $('#btnLogin').click(function() {
@@ -68,14 +69,8 @@
             // 用户登录
             user.login(myName, myPwd, function(res) {
                 // 判断账号密码是否正确，正确则登录，否则清空重新输入
-                if (res.code == 200) {
-                    location.href = './index.html';
-                } else {
-                    $('#tishi').text(res.msg);
-                    $('#myModal').modal('show');
-                    $('#myName').val('');
-                    $('#myPwd').val('')
-                }
+                res.code == 200 ? location.href = './index.html' : $('#tishi').text(res.msg) & $('#myModal').modal('show') & $('#myName').val('') & $('#myPwd').val('');
+
             });
 
         })
