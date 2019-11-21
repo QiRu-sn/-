@@ -6,4 +6,6 @@ var baseUrl = {
     getInfoUrl: URL + '/admin/getuser',
 
     categoryShow: URL + '/admin/category_search',
+    categoryDel: URL + '/admin/category_delete',
+    categoryAdd: URL + '/admin/category_add',
 }
