@@ -8,4 +8,5 @@ var baseUrl = {
     categoryShow: URL + '/admin/category_search',
     categoryDel: URL + '/admin/category_delete',
     categoryAdd: URL + '/admin/category_add',
+    categoryEdit: URL + '/admin/category_edit',
 }
