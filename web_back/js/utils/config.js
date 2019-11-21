@@ -4,4 +4,6 @@ var baseUrl = {
     loginUrl: URL + '/admin/login',
     logOutUrl: URL + '/admin/logout',
     getInfoUrl: URL + '/admin/getuser',
+
+    categoryShow: URL + '/admin/category_search',
 }
