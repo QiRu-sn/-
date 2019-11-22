@@ -28,7 +28,7 @@
                         <th class="text-center" width="100">操作</th>
                     </tr>
                 </thead>
-                <tbody id='tbody'>
+                <tbody id='categoryContainer'>
                     <!-- <tr>
                         <td>未分类</td>
                         <td>uncategorized</td>
@@ -197,13 +197,13 @@
         function getCategory() {
             category.show(function(res) {
                 if (res.code == 200) {
-                    $('#tbody').html(template('temp', res));
+                    $('#categoryContainer').html(template('temp', res));
                 }
             })
         }
 
         // 删除文章类别
-        $('#tbody').on('click', '.del', function() {
+        $('#categoryContainer').on('click', '.del', function() {
             if (window.confirm('您确定要删除吗？') == false) {
                 return;
             }
@@ -213,7 +213,7 @@
             })
         })
 
-        新增分类
+        // 新增分类
         $('#model_add').click(function() {
                 var name = $('#category-name').val().trim();
                 var slug = $('#category-slug').val().trim();
@@ -244,7 +244,7 @@
         })
 
         // 文章类别编辑模态框
-        $('#tbody').on('click', '.edit', function() {
+        $('#categoryContainer').on('click', '.edit', function() {
                 // 显示编辑模态框
                 $('#editModal').modal('show');
                 // 获取参数
