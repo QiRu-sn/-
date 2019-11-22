@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>文章列表</title>
-    <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./js/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/iconfont.css">
     <link rel="stylesheet" href="css/main.css">
@@ -69,7 +69,7 @@
             </table>
 
             <div class="row text-center">
-                <ul class="pagination pagination-sm">
+                <!-- <ul class="pagination pagination-sm">
                     <li class="page-item first disabled"><a href="#" class="page-link">首页</a></li>
                     <li class="page-item prev disabled"><a href="#" class="page-link">上一页</a></li>
                     <li class="page-item active"><a href="#" class="page-link">1</a></li>
@@ -81,16 +81,19 @@
                     <li class="page-item"><a href="#" class="page-link">7</a></li>
                     <li class="page-item next"><a href="#" class="page-link">下一页</a></li>
                     <li class="page-item last"><a href="#" class="page-link">尾页</a></li>
-                </ul>
+                </ul> -->
+                <ul id="pagination" class="pagination-sm"></ul>
             </div>
 
         </div>
     </div>
 
     <script src="js/jquery-1.12.4.min.js"></script>
+    <script src="./js/jquery.twbsPagination.js"></script>
     <script src="./js/utils/config.js"></script>
     <script src="./js/template-web.js"></script>
     <script src="./js/utils/artical.js"></script>
+    <script src="./js/utils/category.js"></script>
     <script>
         // 设置左侧菜单
         $('#release_btn').click(function() {
@@ -113,14 +116,39 @@
         </tr>
         {{/each}}
     </script>
+
+    <!-- 文章所有分类下拉列表模板引擎 -->
+    <script type="text/html" id='art_sel'>
+        <option>所有分类</option>
+        {{each data item}}
+        <option>{{item.name}}</option>
+        {{/each}}
+    </script>
     <script>
         // 文章页面展示基础功能
         getAndShow();
 
+        var currage = '';
+
         function getAndShow() {
-            artical.show(function(res) {
+            artical.show(currage, function(res) {
+                // console.log(res);
+
                 if (res.code == 200) {
                     $('#articalContainer').html(template('art_con', res));
+                    // 分页功能
+                    $('#pagination').twbsPagination({
+                        totalPages: res.totalPage,
+                        visiblePages: 6,
+                        first: '首页',
+                        prev: '上一页',
+                        next: '下一页',
+                        last: '尾页',
+                        onPageClick: function(event, page) {
+                            currage = page;
+                            getAndShow();
+                        }
+                    });
                 }
             })
         }
@@ -138,6 +166,11 @@
                     alert(res.msg);
                 }
             })
+        })
+
+        // 文章所有分类下拉菜单显示
+        category.show(function(res) {
+            $('#selCategory').html(template('art_sel', res));
         })
     </script>
 

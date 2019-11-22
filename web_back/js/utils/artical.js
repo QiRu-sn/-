@@ -1,7 +1,9 @@
 var artical = {
-    show: function(callback) {
+    show: function(currage, callback) {
         $.get(
-            baseUrl.articalShow,
+            baseUrl.articalShow, {
+                page: currage,
+            },
             function(res) {
                 callback(res);
             }
