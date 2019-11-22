@@ -202,7 +202,6 @@
             })
         }
 
-
         // 删除文章类别
         $('#tbody').on('click', '.del', function() {
             if (window.confirm('您确定要删除吗？') == false) {
@@ -214,7 +213,7 @@
             })
         })
 
-        // 新增分类
+        新增分类
         $('#model_add').click(function() {
                 var name = $('#category-name').val().trim();
                 var slug = $('#category-slug').val().trim();
@@ -248,7 +247,6 @@
         $('#tbody').on('click', '.edit', function() {
                 // 显示编辑模态框
                 $('#editModal').modal('show');
-                $('#model_edit').text('保存');
                 // 获取参数
                 var id = $(this).attr('data-id');
                 var name = $(this).attr('data-name');
