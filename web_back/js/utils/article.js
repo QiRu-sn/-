@@ -1,8 +1,10 @@
-var artical = {
-    show: function(currage, callback) {
+var article = {
+    show: function(curPage, type, status, callback) {
         $.get(
-            baseUrl.articalShow, {
-                page: currage,
+            baseUrl.articleShow, {
+                page: curPage,
+                type: type,
+                state: status,
             },
             function(res) {
                 callback(res);
@@ -11,7 +13,7 @@ var artical = {
     },
     del: function(id, callback) {
         $.get(
-            baseUrl.articalDel, {
+            baseUrl.articleDel, {
                 "id": id
             },
             function(res) {

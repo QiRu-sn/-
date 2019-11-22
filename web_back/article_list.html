@@ -30,15 +30,15 @@
                             <option>爱旅行</option> -->
                         </select>
                         <select id="selStatus" name="" class="form-control input-sm">
-                            <option>所有状态</option>
-                            <option value="drafted">草稿</option>
-                            <option value="published">已发布</option>
+                            <option value=''>所有状态</option>
+                            <option value="草稿">草稿</option>
+                            <option value="已发布">已发布</option>
                         </select>
                         <button id="btnSearch" class="btn btn-default btn-sm">筛选</button>
                     </form>
                 </div>
                 <div class="col-xs-6">
-                    <a href="article_release.html" class="btn btn-success btn-sm pull-right" id="release_btn">发表文章</a>
+                    <a href="./article_release.html" class="btn btn-success btn-sm pull-right" id="release_btn">发表文章</a>
                 </div>
             </div>
 
@@ -53,7 +53,7 @@
                         <th class="text-center" width="100">操作</th>
                     </tr>
                 </thead>
-                <tbody id="articalContainer">
+                <tbody id="articleContainer">
                     <!-- <tr>
                         <td>王积千造统最头</td>
                         <td>杰克</td>
@@ -92,7 +92,7 @@
     <script src="./js/jquery.twbsPagination.js"></script>
     <script src="./js/utils/config.js"></script>
     <script src="./js/template-web.js"></script>
-    <script src="./js/utils/artical.js"></script>
+    <script src="./js/utils/article.js"></script>
     <script src="./js/utils/category.js"></script>
     <script>
         // 设置左侧菜单
@@ -119,23 +119,39 @@
 
     <!-- 文章所有分类下拉列表模板引擎 -->
     <script type="text/html" id='art_sel'>
-        <option>所有分类</option>
+        <option value=''>所有分类</option>
         {{each data item}}
-        <option>{{item.name}}</option>
+        <option value={{item.id}}>{{item.name}}</option>
         {{/each}}
     </script>
     <script>
         // 文章页面展示基础功能
         getAndShow();
 
-        var currage = '';
+        // 当前显示第几页
+        var curPage = '';
+        // 文章类型
+        var type = '';
+        // 文章状态
+        var status = '';
+        var curTotalPage = '';
 
         function getAndShow() {
-            artical.show(currage, function(res) {
+            article.show(curPage, type, status, function(res) {
                 // console.log(res);
 
                 if (res.code == 200) {
-                    $('#articalContainer').html(template('art_con', res));
+                    $('#articleContainer').html(template('art_con', res));
+                    // 如果前后两次查询结果得到的总页数不相同。
+                    // 则需要destory()分页插件，再做初始化
+
+                    if (curTotalPage != res.totalPage) {
+                        // 由于插件对总页数的变化不敏感，所以如果总页数不同，则要
+                        // 先销毁，再创建
+                        // 参考：http://josecebe.github.io/twbs-pagination/
+                        $('#pagination').twbsPagination('destroy');
+                        curTotalPage = res.totalPage
+                    }
                     // 分页功能
                     $('#pagination').twbsPagination({
                         totalPages: res.totalPage,
@@ -145,21 +161,31 @@
                         next: '下一页',
                         last: '尾页',
                         onPageClick: function(event, page) {
-                            currage = page;
+                            // alert(page)
+                            curPage = page;
                             getAndShow();
                         }
                     });
                 }
             })
         }
+        // 筛选功能
+        $('#btnSearch').click(function() {
+            type = $("#selCategory").val();
+            status = $("#selStatus").val();
+            curPage = 1;
+            getAndShow();
+
+        })
+
 
         // 文章页面删除文章
-        $("#articalContainer").on('click ', '.del ', function() {
+        $("#articleContainer").on('click ', '.del ', function() {
             if (window.confirm('您确定要删除吗？ ') == false) {
                 return;
             }
             var id = $(this).attr('data-id');
-            artical.del(id, function(res) {
+            article.del(id, function(res) {
                 if (res.code == 200) {
                     getAndShow();
                 } else {

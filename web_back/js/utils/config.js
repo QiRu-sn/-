@@ -10,6 +10,6 @@ var baseUrl = {
     categoryAdd: URL + '/admin/category_add',
     categoryEdit: URL + '/admin/category_edit',
 
-    articalShow: URL + '/admin/search',
-    articalDel: URL + '/admin/article_delete',
+    articleShow: URL + '/admin/search',
+    articleDel: URL + '/admin/article_delete',
 }
