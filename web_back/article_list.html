@@ -110,7 +110,7 @@
             <td class="text-center">{{item.date}}</td>
             <td class="text-center">{{item.state}}</td>
             <td class="text-center">
-                <a href="article_edit.html" class="btn btn-default btn-xs">编辑</a>
+                <a href="article_edit.html?_={{item.id}}" class="btn btn-default btn-xs">编辑</a>
                 <a href="javascript:;" data-id="{{item.id}}" class="btn btn-danger btn-xs del">删除</a>
             </td>
         </tr>
@@ -170,7 +170,7 @@
                 }
             })
         }
-        // 筛选功能
+        // 文章列表筛选功能
         $('#btnSearch').click(function() {
             type = $("#selCategory").val();
             status = $("#selStatus").val();

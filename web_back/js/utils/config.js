@@ -12,4 +12,5 @@ var baseUrl = {
 
     articleShow: APIURLS + '/admin/search',
     articleDel: APIURLS + '/admin/article_delete',
+    articleAdd: APIURLS + '/admin/article_publish',
 }

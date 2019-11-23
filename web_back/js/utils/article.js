@@ -20,5 +20,18 @@ var article = {
                 callback(res);
             }
         )
+    },
+    add: function(fd, callback) {
+        $.ajax({
+            url: baseUrl.articleAdd,
+            type: 'post',
+            data: fd,
+            processData: false,
+            contentType: false,
+            success: function(res) {
+                callback(res);
+
+            }
+        })
     }
 }

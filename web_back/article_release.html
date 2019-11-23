@@ -35,7 +35,7 @@
                         <input name="cover" type="file" id="exampleInputFile">
                     </div>
                     <div>
-                        <img id="coverImg" style="margin-left:16px; margin-top:20px; width:200px; height:150px;" src="./images/pic06.jpg" alt="">
+                        <img id="coverImg" style="display: none;width:200px; height:150px;" src="./images/pic06.jpg" alt="">
                     </div>
                 </div>
                 <div class="form-group">
@@ -83,10 +83,11 @@
     <script src="./js/jquery-1.12.4.min.js"></script>
     <script src="./js/template-web.js"></script>
     <script src="./js/utils/config.js"></script>
+    <script src="./js/utils/article.js"></script>
     <script src="./js/utils/category.js"></script>
     <script type="text/html" id='temp'>
         {{each data item}}
-        <option> {{item.name}}</option>
+        <option value='{{item.id}}'> {{item.name}}</option>
         {{/each}}
     </script>
     <script>
@@ -102,19 +103,12 @@
             fd.append('state', '已发布')
                 // 获取富文本编辑的内容
             fd.set('content', tinyMCE.activeEditor.getContent())
-            $.ajax({
-                url: 'http://localhost:8000/admin/article_publish',
-                type: 'post',
-                data: fd,
-                processData: false,
-                contentType: false,
-                success: function(res) {
-                    if (res.code == 201) {
-                        alert('发布成功');
-                    } else {
-                        alert(res.msg);
-                    }
-
+            article.add(fd, function(res) {
+                if (res.code == 201) {
+                    alert('发布成功');
+                    window.location.href = './article_list.html';
+                } else {
+                    alert(res.msg);
                 }
             })
 
@@ -126,6 +120,7 @@
             if (file) {
                 var url = URL.createObjectURL(file);
                 $('#coverImg').prop('src', url);
+                $('#coverImg').css('display', 'block');
             }
 
 
