@@ -1,15 +1,15 @@
 // 初始化接口默认地址
-var URL = 'http://localhost:8000';
+var APIURLS = 'http://localhost:8000';
 var baseUrl = {
-    loginUrl: URL + '/admin/login',
-    logOutUrl: URL + '/admin/logout',
-    getInfoUrl: URL + '/admin/getuser',
+    loginUrl: APIURLS + '/admin/login',
+    logOutUrl: APIURLS + '/admin/logout',
+    getInfoUrl: APIURLS + '/admin/getuser',
 
-    categoryShow: URL + '/admin/category_search',
-    categoryDel: URL + '/admin/category_delete',
-    categoryAdd: URL + '/admin/category_add',
-    categoryEdit: URL + '/admin/category_edit',
+    categoryShow: APIURLS + '/admin/category_search',
+    categoryDel: APIURLS + '/admin/category_delete',
+    categoryAdd: APIURLS + '/admin/category_add',
+    categoryEdit: APIURLS + '/admin/category_edit',
 
-    articleShow: URL + '/admin/search',
-    articleDel: URL + '/admin/article_delete',
+    articleShow: APIURLS + '/admin/search',
+    articleDel: APIURLS + '/admin/article_delete',
 }

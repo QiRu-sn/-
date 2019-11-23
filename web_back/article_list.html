@@ -34,7 +34,7 @@
                             <option value="草稿">草稿</option>
                             <option value="已发布">已发布</option>
                         </select>
-                        <button id="btnSearch" class="btn btn-default btn-sm">筛选</button>
+                        <button type="button" id="btnSearch" class="btn btn-default btn-sm">筛选</button>
                     </form>
                 </div>
                 <div class="col-xs-6">
@@ -134,6 +134,7 @@
         var type = '';
         // 文章状态
         var status = '';
+        // 当前总页数
         var curTotalPage = '';
 
         function getAndShow() {
@@ -142,7 +143,7 @@
 
                 if (res.code == 200) {
                     $('#articleContainer').html(template('art_con', res));
-                    // 如果前后两次查询结果得到的总页数不相同。
+                    // 判断如果前后两次查询结果得到的总页数不相同。
                     // 则需要destory()分页插件，再做初始化
 
                     if (curTotalPage != res.totalPage) {
