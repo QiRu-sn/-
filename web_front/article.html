@@ -28,23 +28,23 @@
         <div class="menu">
             <div class="menu_collapse fl">
                 <a href="javascript:;" class="level_one"><i class="fa fa-list-ul"></i>全部分类</a>
-                <ul class="level_two">
-                    <li class="up"></li>
+                <ul class="level_two" id='catgoryLeftMenu'>
+                    <!-- <li class="up"></li>
                     <li><a href="#">最 新</a></li>
                     <li><a href="#">科 技</a></li>
                     <li><a href="#">股 市</a></li>
                     <li><a href="#">商 品</a></li>
                     <li><a href="#">外 汇</a></li>
-                    <li><a href="#">公 司</a></li>
+                    <li><a href="#">公 司</a></li> -->
                 </ul>
             </div>
-            <ul class="left_menu fl">
-                <li><a href="#">最 新</a></li>
+            <ul class="left_menu fl" id='catgoryTopMenu'>
+                <!-- <li><a href="#">最 新</a></li>
                 <li><a href="#">科 技</a></li>
                 <li><a href="#">股 市</a></li>
                 <li><a href="#">商 品</a></li>
                 <li><a href="#">外 汇</a></li>
-                <li><a href="#">公 司</a></li>
+                <li><a href="#">公 司</a></li> -->
             </ul>
             <ul class="right_menu fr">
                 <li><a href="#">科技专题</a></li>
@@ -58,15 +58,14 @@
             <div class="breadcrumb">
                 当前位置： <a href="#">首页</a> &gt; <a href="#">科技</a> &gt; 文章详情
             </div>
-            <h3 class="article_title">马斯克的新花样？连接人脑和电脑的初创公司又筹了一笔钱</h3>
-            <div class="article_info">杰克 发布于 2019-05-08 07:08:46&nbsp;&nbsp;&nbsp;分类: 奇趣事&nbsp;&nbsp;&nbsp;阅读:
-                (98)&nbsp;&nbsp;&nbsp;评论: (0)</div>
-            <div class="article_con">
+            <h3 id='artical_title' class="article_title">马斯克的新花样？连接人脑和电脑的初创公司又筹了一笔钱</h3>
+            <div class="article_info"><span id='artical_author'>杰克</span> 发布于 <span id='artical_date'>2019-05-08 07:08:46</span>&nbsp;&nbsp;&nbsp;分类: <span id='artical_type'>奇趣事</span>&nbsp;&nbsp;&nbsp;阅读: (98)&nbsp;&nbsp;&nbsp;评论: (0)</div>
+            <div class="article_con" id='artical_content'>
 
                 <p>“上天入地”还不够？硅谷“钢铁侠”马斯克名下一家低调的公司最近又融了一大笔钱。</p>
 
-                <p>马斯克投资的一家小型且不为人熟知的脑机接口（brain-computer
-                    interface）公司Neuralink披露，该公司融到了3900万美元，虽然不及公司计划的融资额5100万美元，但也比上次的融资多了不少。</p>
+                <p>马斯克投资的一家小型且不为人熟知的脑机接口（brain-computer interface）公司Neuralink披露，该公司融到了3900万美元，虽然不及公司计划的融资额5100万美元，但也比上次的融资多了不少。
+                </p>
 
                 <p>两年前该公司曾计划融资1亿美元，但只拿到了2700万美元的融资。</p>
 
@@ -76,8 +75,7 @@
 
             </div>
             <div class="article_links">
-                上一篇： <a href="#">世界第一台可以玩游戏的冰箱</a><br>
-                下一篇： <a href="#">世界第一个可以玩游戏的马桶、世界上第一个可以玩游戏的茶杯</a>
+                上一篇： <a href="#">世界第一台可以玩游戏的冰箱</a><br> 下一篇： <a href="#">世界第一个可以玩游戏的马桶、世界上第一个可以玩游戏的茶杯</a>
             </div>
 
             <form action="" class="comment_form">
@@ -204,6 +202,58 @@
         <p>CopyRight © 2019 深圳大事件信息技术股份有限公司 All Rights Reserved</p>
         <p>电话：0755-****888 粤ICP备*******8号</p>
     </div>
+    <script src="./js/jquery-1.12.4.min.js"></script>
+    <script src="./js/template-web.js"></script>
+    <script src="./js/utils/config.js"></script>
+    <script src="./js/utils/category.js"></script>
+    <script src="./js/utils/article.js"></script>
+    <!-- 导航区域菜单模板引擎 -->
+    <script type="text/html" id="temp_nav">
+        {{each data item}}
+        <li><a href="#">{{item.name}}</a></li>
+        {{/each}}
+    </script>
+
+    <script>
+        // 页面导航菜单区域内容数据读取显示
+        category.show(function(res) {
+                if (res.code == 200) {
+                    $('#catgoryTopMenu').html(template('temp_nav', res));
+                    $('#catgoryLeftMenu').html('<li class="up"></li>' + template('temp_nav', res));
+                }
+            })
+            // 根据首页焦点区域获取详细文章信息
+
+        // 1、拆分地址栏id,获取id
+        var id = location.search.substr(4);
+        // 获取文章详细信息
+        article.getDetails(id, function(res) {
+            // 将获取到的数据显示
+            $('#artical_title').html(res.data.title);
+            $('#artical_author').html(res.data.author);
+            $('#artical_date').html(res.data.date);
+            // $('#artical_type').html(res.data.type);
+            $('#artical_content').html(res.data.content);
+
+            // 获取当前文章类型的id值
+            var typeId = res.data.type;
+            // 发送请求获取所有文章类型
+            category.show(function(res) {
+                // 循环遍历所有文章
+                var result = res.data.find(function(item) {
+                    // 判断找到与当前文章类别id相同的文章，则表示找到此文章
+                    if (item.id == typeId) {
+                        return true;
+                    }
+                })
+                if (result) {
+                    // 将文章类型赋值给分类
+                    $('#artical_type').html(result.name);
+                }
+            })
+
+        })
+    </script>
 
 </body>
 
