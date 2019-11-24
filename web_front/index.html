@@ -55,8 +55,8 @@
 
     <div class="main_con clearfix">
         <div class="left_con">
-            <ul class="focus_list">
-                <li class="first">
+            <ul class="focus_list" id='focusContainer'>
+                <!-- <li class="first">
                     <a href="#"><img src="images/pic01.jpg" alt=""></a>
                     <p>图片说明</p>
                 </li>
@@ -75,7 +75,7 @@
                 <li>
                     <a href="#"><img src="images/pic06.jpg" alt=""></a>
                     <p>图片说明</p>
-                </li>
+                </li> -->
             </ul>
 
             <div class="common_title">
@@ -224,15 +224,45 @@
     <script src="./js/template-web.js"></script>
     <script src="./js/utils/config.js"></script>
     <script src="./js/utils/category.js"></script>
+    <script src="./js/utils/article.js"></script>
+    <!-- 导航区域菜单模板引擎 -->
     <script type="text/html" id="temp_nav">
         {{each data item}}
         <li><a href="#">{{item.name}}</a></li>
         {{/each}}
     </script>
+
+    <!-- 焦点图区域模板引擎 -->
+    <script type="text/html" id="temp_focus">
+        <!-- 判断当下标为0时i，即第一张图片添加first类名 -->
+        {{each data item index}} {{if index==0}}
+        <li class="first">
+            <a href="#"><img src="{{item.cover}}" alt=""></a>
+            <p>{{item.title}}</p>
+        </li>
+        {{else}}
+        <li>
+            <a href="#"><img src="{{item.cover}}" alt=""></a>
+            <p>{{item.title}}</p>
+        </li>
+        {{/if}} {{/each}}
+    </script>
+
     <script>
+        // 页面导航菜单区域内容数据读取显示
         category.show(function(res) {
-            $('#catgoryTopMenu').html(template('temp_nav', res));
-            $('#catgoryLeftMenu').html('<li class="up"></li>' + template('temp_nav', res));
+                if (res.code == 200) {
+                    $('#catgoryTopMenu').html(template('temp_nav', res));
+                    $('#catgoryLeftMenu').html('<li class="up"></li>' + template('temp_nav', res));
+                }
+            })
+            // 页面焦点图部分信息读取显示
+        article.show(function(res) {
+            console.log(res);
+            if (res.code == 200) {
+                $('#focusContainer').html(template('temp_focus', res));
+            }
+
         })
     </script>
 

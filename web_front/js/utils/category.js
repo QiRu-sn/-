@@ -8,25 +8,6 @@ var category = {
             }
         )
     },
-    del: function(id, callback) {
-        $.post(
-            baseUrl.categoryDel, { 'id': id },
-            function(res) {
-                callback(res);
-            }
-        )
-    },
-    add: function(name, slug, callback) {
-        $.post(
-            baseUrl.categoryAdd, {
-                'name': name,
-                'slug': slug,
-            },
-            function(res) {
-                callback(res);
-            }
-        )
-    },
     edit: function(id, name, slug, callback) {
         $.post(
             baseUrl.categoryEdit, {
