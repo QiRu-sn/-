@@ -137,15 +137,16 @@
         // 当前总页数
         var curTotalPage = '';
 
+        var id = '';
+
         function getAndShow() {
-            article.show(curPage, type, status, function(res) {
+            article.show(curPage, type, status, id, function(res) {
                 // console.log(res);
 
                 if (res.code == 200) {
                     $('#articleContainer').html(template('art_con', res));
                     // 判断如果前后两次查询结果得到的总页数不相同。
                     // 则需要destory()分页插件，再做初始化
-
                     if (curTotalPage != res.totalPage) {
                         // 由于插件对总页数的变化不敏感，所以如果总页数不同，则要
                         // 先销毁，再创建

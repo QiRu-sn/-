@@ -13,4 +13,7 @@ var baseUrl = {
     articleShow: APIURLS + '/admin/search',
     articleDel: APIURLS + '/admin/article_delete',
     articleAdd: APIURLS + '/admin/article_publish',
+    articleEdit: APIURLS + '/admin/article_edit',
+
+    commentShow: APIURLS + '/admin/comment_search',
 }
