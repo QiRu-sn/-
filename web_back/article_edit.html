@@ -98,14 +98,8 @@
             })
             // 获取当前新闻id
         var id = window.location.search.substr(3);
-        // 当前显示第几页
-        var curPage = '';
-        // 文章类型
-        var type = '';
-        // 文章状态
-        var status = '';
         // 发送请求获取所有文章信息
-        article.show(curPage, type, status, id, function(res) {
+        article.getDetails(id, function(res) {
             // 将当前新闻的所有内容设置在页面显示
             $('#inputid').val(res.data.id);
             $('#inputEmail3').val(res.data.title);

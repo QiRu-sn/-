@@ -31,8 +31,8 @@
                         <th class="text-center" width="100">操作</th>
                     </tr>
                 </thead>
-                <tbody id="commentContainer">
-                    <!-- <tr>
+                <tbody>
+                    <tr>
                         <td>小周</td>
                         <td>这是一条测试评论，欢迎光临</td>
                         <td>《世界，你好》</td>
@@ -138,7 +138,7 @@
                             <a href="javascript:editTr( 'rejected',11 );" class="btn btn-warning btn-xs">拒绝</a>
                             <a href="javascript:editTr( 'trashed',11 );" class="btn btn-danger btn-xs">删除</a>
                         </td>
-                    </tr> -->
+                    </tr>
                 </tbody>
             </table>
 
@@ -162,44 +162,10 @@
 
         </div>
     </div>
-    <script src="js/jquery-1.12.4.min.js"></script>
-    <script src="./js/utils/config.js"></script>
-    <script src="./js/utils/comment.js"></script>
-    <script src="./js/template-web.js"></script>
-
     <script>
         // 设置左侧菜单
         $('#release_btn').click(function() {
             window.parent.setMenu(0, 0);
-        })
-    </script>
-    <script type="text/html" id="commentContent">
-        {{each data item}}
-        <tr>
-            <td>{{item.name}}</td>
-            <td>{{item.content}}</td>
-            <td>{{item.article_id}}</td>
-            <td>{{item.dt}}</td>
-            <td>{{item.state}}</td>
-            <td class="text-center">
-                <a href="javascript:;" class="btn btn-warning btn-xs">拒绝</a>
-                <a href="javascript:;" class="btn btn-danger btn-xs">删除</a>
-            </td>
-        </tr>
-        {{/each}}
-    </script>
-    <script>
-        // 当前页
-        var page = '';
-        // 每页显示条数
-        var perpage = '';
-        comment.show(page, perpage, function(res) {
-            if (res.code == 200) {
-                console.log(res);
-
-                $('#commentContainer').html(template('commentContent', res));
-            }
-
         })
     </script>
 

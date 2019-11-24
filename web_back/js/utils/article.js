@@ -1,8 +1,7 @@
 var article = {
-    show: function(curPage, type, status, id, callback) {
+    show: function(curPage, type, status, callback) {
         $.get(
             baseUrl.articleShow, {
-                id: id,
                 page: curPage,
                 type: type,
                 state: status,
@@ -47,5 +46,15 @@ var article = {
             }
         })
 
+    },
+    getDetails: function(id, callback) {
+        $.get(
+            baseUrl.articleShow, {
+                'id': id,
+            },
+            function(res) {
+                callback(res);
+            }
+        )
     }
 }
