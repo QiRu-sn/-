@@ -15,5 +15,6 @@ var baseUrl = {
     articleAdd: APIURLS + '/admin/article_publish',
     articleEdit: APIURLS + '/admin/article_edit',
 
-    commentShow: APIURLS + '/admin/comment_search',
+    commentPublish: APIURLS + '/post_comment',
+    commentShow: APIURLS + '/get_comments',
 }

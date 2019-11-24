@@ -81,22 +81,22 @@
             <form action="" class="comment_form">
                 <div class="form_group">
                     <label>用户名：</label>
-                    <input type="text" placeholder="请输入用户名" class="comment_name">
+                    <input id='comment_name' type="text" placeholder="请输入用户名" class="comment_name">
                 </div>
                 <div class="form_group">
                     <label>评论内容：</label>
-                    <textarea placeholder="请发表您的评论" class="comment_input"></textarea>
+                    <textarea id='comment_content' placeholder="请发表您的评论" class="comment_input"></textarea>
                 </div>
                 <div class="form_group">
-                    <input type="submit" name="" value="评 论" class="comment_sub"></div>
+                    <input type="button" id='btnComment' name="" value="评 论" class="comment_sub"></div>
             </form>
 
             <div class="comment_count">
                 4条评论
             </div>
 
-            <div class="comment_list_con">
-                <div class="comment_detail_list">
+            <div class="comment_list_con" id="commentContainer">
+                <!-- <div class="comment_detail_list">
                     <div class="person_pic fl">乔</div>
                     <div class="name_time fl"><b>虚竹</b><span>4小时前</span></div>
                     <div class="comment_text fl">
@@ -123,7 +123,7 @@
                     <div class="comment_text fl">
                         遏制茅台酒价格过快上涨，多渠道供给，就不一定要买，租茅台酒也可以的，租售同权。开发共有产权茅台酒，让老百姓喝得起茅台酒，饮者有其酒。
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="right_con setfl">
@@ -207,10 +207,23 @@
     <script src="./js/utils/config.js"></script>
     <script src="./js/utils/category.js"></script>
     <script src="./js/utils/article.js"></script>
+    <script src="./js/utils/comment.js"></script>
     <!-- 导航区域菜单模板引擎 -->
     <script type="text/html" id="temp_nav">
         {{each data item}}
         <li><a href="#">{{item.name}}</a></li>
+        {{/each}}
+    </script>
+    <!-- 评论区域模板引擎 -->
+    <script type="text/html" id="temp_comment">
+        {{each data item}}
+        <div class="comment_detail_list">
+            <div class="person_pic fl">{{item.name.substr(0,1)}}</div>
+            <div class="name_time fl"><b>{{item.name}}</b><span>{{item.dt}}</span></div>
+            <div class="comment_text fl">
+                {{item.content}}
+            </div>
+        </div>
         {{/each}}
     </script>
 
@@ -251,10 +264,39 @@
                     $('#artical_type').html(result.name);
                 }
             })
-
         })
+
+        // 文章发表评论区域
+        $('#btnComment').click(function() {
+            var name = $('#comment_name').val().trim();
+            var content = $('#comment_content').val().trim();
+            if (name == '' || content == '') {
+                alert('不能为空');
+                return;
+            }
+            comment.publish(name, content, id, function(res) {
+                console.log(res);
+                if (res.code == 200) {
+                    $('#comment_name').val('');
+                    $('#comment_content').val('');
+                    getAndShow();
+                }
+            })
+        })
+
+        // 文章评论显示区域
+        function getAndShow() {
+            comment.show(id, function(res) {
+                if (res.code == 200) {
+                    res.data.reverse();
+                    $('#commentContainer').html(template('temp_comment', res))
+                }
+
+            })
+        }
+        getAndShow();
     </script>
 
 </body>
 
-</html>
+</html>s
