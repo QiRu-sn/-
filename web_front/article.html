@@ -56,7 +56,7 @@
     <div class="main_con clearfix">
         <div class="left_con setfr">
             <div class="breadcrumb">
-                当前位置： <a href="#">首页</a> &gt; <a href="#">科技</a> &gt; 文章详情
+                当前位置： <a href="./index.html">首页</a> &gt; <a href="#" id="breadcrumbType">科技</a> &gt; 文章详情
             </div>
             <h3 id='artical_title' class="article_title">马斯克的新花样？连接人脑和电脑的初创公司又筹了一笔钱</h3>
             <div class="article_info"><span id='artical_author'>杰克</span> 发布于 <span id='artical_date'>2019-05-08 07:08:46</span>&nbsp;&nbsp;&nbsp;分类: <span id='artical_type'>奇趣事</span>&nbsp;&nbsp;&nbsp;阅读: (98)&nbsp;&nbsp;&nbsp;评论: (0)</div>
@@ -92,7 +92,7 @@
             </form>
 
             <div class="comment_count">
-                4条评论
+                <span id="commentCount">4</span>条评论
             </div>
 
             <div class="comment_list_con" id="commentContainer">
@@ -141,8 +141,8 @@
             </div>
             <div class="common_wrap">
                 <h3><i class="fa fa-commenting-o"></i> 最新评论</h3>
-                <ul class="content_list comment_list">
-                    <li>
+                <ul class="content_list comment_list" id="newComment">
+                    <!-- <li>
                         <span>山</span>
                         <b><em>山治</em> 9个月前(08-14)说:</b>
                         <strong>挺会玩的</strong>
@@ -171,7 +171,7 @@
                         <span>乔</span>
                         <b><em>乔峰</em> 9个月前(08-14)说:</b>
                         <strong>挺会玩的</strong>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
             <div class="common_wrap">
@@ -222,12 +222,22 @@
     <script type="text/html" id="temp_comment">
         {{each data item}}
         <div class="comment_detail_list">
-            <div class="person_pic fl">{{item.namez}}</div>
+            <div class="person_pic fl">{{item.name.substr(0,1)}}</div>
             <div class="name_time fl"><b>{{item.name}}</b><span>{{item.relativeDt}}</span></div>
             <div class="comment_text fl">
                 {{item.content}}
             </div>
         </div>
+        {{/each}}
+    </script>
+    <!-- 最新评论区域模板引擎 -->
+    <script type="text/html" id="temp_newComment">
+        {{each data item}}
+        <li>
+            <span>{{item.name.substr(0,1)}}</span>
+            <b><em>{{item.name}}</em> {{item.relativeDt}}({{item.time}})说:</b>
+            <strong>{{item.content}}</strong>
+        </li>
         {{/each}}
     </script>
 
@@ -272,6 +282,7 @@
                 if (result) {
                     // 将文章类型赋值给分类
                     $('#artical_type').html(result.name);
+                    $('#breadcrumbType').html(result.name)
                 }
             })
         })
@@ -287,7 +298,9 @@
             comment.publish(name, content, id, function(res) {
                 console.log(res);
                 if (res.code == 200) {
+                    // 文章类别显示
                     $('#comment_name').val('');
+                    // 面包屑导航文章类别显示
                     $('#comment_content').val('');
                     getAndShow();
                 }
@@ -299,7 +312,7 @@
             comment.show(id, function(res) {
                 if (res.code == 200) {
                     res.data.reverse();
-                    console.log(res.data);
+                    $('#commentCount').html(res.data.length);
                     res.data.forEach(function(item) {
                         // 评论区时间显示
                         item.relativeDt = dayjs(item.dt).fromNow()
@@ -311,8 +324,22 @@
             })
         }
         getAndShow();
+
+        // 最新评论显示区域
+        comment.show(id, function(res) {
+            if (res.code == 200) {
+                res.data.reverse();
+                res.data.forEach(function(item) {
+                    // 评论区时间显示
+                    item.relativeDt = dayjs(item.dt).fromNow()
+                        // 评论区时间显示
+                    item.time = dayjs(item.dt).format("MM-DD");
+                })
+                $('#newComment').html(template('temp_newComment', res))
+            }
+        })
     </script>
 
 </body>
 
-</html>sc
+</html>
