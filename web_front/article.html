@@ -208,6 +208,10 @@
     <script src="./js/utils/category.js"></script>
     <script src="./js/utils/article.js"></script>
     <script src="./js/utils/comment.js"></script>
+
+    <script src="./js/dayjs/dayjs.min.js"></script>
+    <script src="./js/dayjs/relative.min.js"></script>
+    <script src="./js/dayjs/zh_cn.js"></script>
     <!-- 导航区域菜单模板引擎 -->
     <script type="text/html" id="temp_nav">
         {{each data item}}
@@ -218,8 +222,8 @@
     <script type="text/html" id="temp_comment">
         {{each data item}}
         <div class="comment_detail_list">
-            <div class="person_pic fl">{{item.name.substr(0,1)}}</div>
-            <div class="name_time fl"><b>{{item.name}}</b><span>{{item.dt}}</span></div>
+            <div class="person_pic fl">{{item.namez}}</div>
+            <div class="name_time fl"><b>{{item.name}}</b><span>{{item.relativeDt}}</span></div>
             <div class="comment_text fl">
                 {{item.content}}
             </div>
@@ -228,6 +232,12 @@
     </script>
 
     <script>
+        // dayjs使用
+        dayjs.extend(dayjs_plugin_relativeTime);
+        // dayjs设置语言
+        dayjs.locale('zh-cn')
+
+
         // 页面导航菜单区域内容数据读取显示
         category.show(function(res) {
                 if (res.code == 200) {
@@ -289,6 +299,12 @@
             comment.show(id, function(res) {
                 if (res.code == 200) {
                     res.data.reverse();
+                    console.log(res.data);
+                    res.data.forEach(function(item) {
+                        // 评论区时间显示
+                        item.relativeDt = dayjs(item.dt).fromNow()
+
+                    })
                     $('#commentContainer').html(template('temp_comment', res))
                 }
 
@@ -299,4 +315,4 @@
 
 </body>
 
-</html>s
+</html>sc
