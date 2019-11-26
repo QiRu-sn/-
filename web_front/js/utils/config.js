@@ -1,6 +1,6 @@
 // 初始化接口默认地址
-var APIURLS = 'http://localhost:8000';
-var baseUrl = {
+const APIURLS = 'http://localhost:8000';
+const baseUrl = {
     loginUrl: APIURLS + '/admin/login',
     logOutUrl: APIURLS + '/admin/logout',
     getInfoUrl: APIURLS + '/admin/getuser',

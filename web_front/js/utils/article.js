@@ -1,23 +1,17 @@
-var article = {
-    show: function(callback) {
+const article = {
+    show: callback =>
         $.get(
             baseUrl.articleShow, {
                 perpage: 5,
                 state: '已发布',
             },
-            function(res) {
-                callback(res);
-            }
-        )
-    },
-    getDetails: function(id, callback) {
+            res => callback(res)
+        ),
+    getDetails: (id, callback) =>
         $.get(
             baseUrl.articleShow, {
                 'id': id,
             },
-            function(res) {
-                callback(res);
-            }
+            res => callback(res)
         )
-    }
 }

@@ -271,25 +271,24 @@
         dayjs.locale('zh-cn');
 
         // 页面导航菜单区域内容数据读取显示
-        category.show(function(res) {
+        category.show(res => {
                 if (res.code == 200) {
                     $('#catgoryTopMenu').html(template('temp_nav', res));
                     $('#catgoryLeftMenu').html('<li class="up"></li>' + template('temp_nav', res));
                 }
             })
             // 页面焦点图部分信息读取显示
-        article.show(function(res) {
-            console.log(res);
+        article.show(res => {
             if (res.code == 200) {
                 $('#focusContainer').html(template('temp_focus', res));
             }
         })
 
         // 最新评论显示区域
-        comment.search(function(res) {
+        comment.search(res => {
             if (res.code == 200) {
                 res.data.reverse();
-                res.data.forEach(function(item) {
+                res.data.forEach(item => {
                     // 评论区时间显示
                     item.relativeDt = dayjs(item.dt).fromNow()
                         // 评论区时间显示
