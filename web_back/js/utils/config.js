@@ -4,6 +4,8 @@ const baseUrl = {
     loginUrl: APIURLS + '/admin/login',
     logOutUrl: APIURLS + '/admin/logout',
     getInfoUrl: APIURLS + '/admin/getuser',
+    getUserInfo: APIURLS + '/admin/userinfo_get',
+    userEdit: APIURLS + '/admin/userinfo_edit',
 
     categoryShow: APIURLS + '/admin/category_search',
     categoryDel: APIURLS + '/admin/category_delete',

@@ -20,51 +20,91 @@
             用户信息修改
         </div>
         <div class="container-fluid common_con">
-            <form class="form-horizontal article_form">
+            <form class="form-horizontal article_form" id='myform'>
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">用户名称：</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="inputEmail3" value="李思思">
+                        <input type="text" name='username' class="form-control" id="userName" value="李思思">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">昵称：</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="inputEmail3" value="思思">
+                        <input type="text" name="nickname" class="form-control" id="userNickName" value="思思">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">邮箱：</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="inputEmail3" value="lisisi@126.com">
+                        <input type="text" name="email" class="form-control" id="userEmail" value="lisisi@126.com">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="inputPassword3" class="col-sm-2 control-label">用户图标：</label>
                     <div class="col-sm-10">
-                        <img src="images/2.jpg" alt="" class="user_pic">
-                        <input type="file" id="exampleInputFile">
+                        <img id='userIconImg' src="images/2.jpg" alt="" class="user_pic">
+                        <input name="user_pic" type="file" id="userIcon">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">密码：</label>
                     <div class="col-sm-4">
-                        <input type="password" class="form-control" id="inputEmail3" value="12345678">
+                        <input name="password" type="password" class="form-control" id="userPWD" value="12345678">
                     </div>
                 </div>
 
 
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-success">修改</button>
+                        <button id='btnSave' type="button" class="btn btn-success">修改</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
+    <script src="./js/jquery-1.12.4.min.js"></script>
+    <script src="./js/utils/config.js"></script>
+    <script src="./js/utils/user.js"></script>
+
+    <script>
+        // 获取管理员详细信息并显示
+        // 发送请求获取管理员详细信息
+        user.getUserInfo(function(res) {
+            if (res.code == 200) {
+                // 将该管理员详细信息显示在页面中
+                $('#userName').val(res.data.username);
+                $('#userNickName').val(res.data.nickname);
+                $('#userEmail').val(res.data.email);
+                $('#userIconImg').prop('src', res.data.user_pic);
+                $('#userPWD').val(res.data.password);
+
+
+            }
+        })
+        $('#userIcon').change(function() {
+            var url = URL.createObjectURL(this.files[0])
+            $('#userIconImg').prop('src', url);
+        })
+
+        // 修改按钮添加点击事件
+        $('#btnSave').click(function() {
+            //收集页面中修改后的所有信息
+            var fd = new FormData(document.getElementById('myform'));
+            // 发送编辑修改请求
+            user.userEdit(fd, function(res) {
+                console.log(res);
+                if (res.code == 200) {
+                    alert('修改成功');
+                    user.getUserInfo(function(res) {})
+                } else {
+                    alert(res.msg);
+                }
+            })
+        })
+    </script>
 
 </body>
 
-</html>
+</html>s
