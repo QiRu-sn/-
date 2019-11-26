@@ -18,4 +18,10 @@ const baseUrl = {
     articleEdit: APIURLS + '/admin/article_edit',
 
     commentShow: APIURLS + '/admin/comment_search',
+
+    articleCount: APIURLS + '/admin/article_count',
+    commentCount: APIURLS + '/admin/comment_count',
+    monthCount: APIURLS + '/admin/month_article_count',
+    categoryCount: APIURLS + '/admin/article_category_count',
+    visitCount: APIURLS + '/admin/article_category_visit',
 }
