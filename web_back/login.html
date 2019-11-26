@@ -56,10 +56,10 @@
     <script src="./js/utils/config.js"></script>
     <script src="./js/utils/user.js"></script>
     <script>
-        function getLogin() {
+        let getLogin = () => {
             // 获取用户名及密码
-            var myName = $('#myName').val().trim();
-            var myPwd = $('#myPwd').val().trim();
+            let myName = $('#myName').val().trim();
+            let myPwd = $('#myPwd').val().trim();
             // 判断输入是否为空
             if (myName == '' || myPwd == '') {
                 // alert('不能为空');
@@ -67,20 +67,15 @@
                 return;
             }
             // 用户登录
-            user.login(myName, myPwd, function(res) {
+            user.login(myName, myPwd, res =>
                 // 判断账号密码是否正确，正确则登录，否则清空重新输入
-                res.code == 200 ? location.href = './index.html' : $('#tishi').text(res.msg) & $('#myModal').modal('show') & $('#myName').val('') & $('#myPwd').val('');
-
-            });
+                res.code == 200 ? location.href = './index.html' : $('#tishi').text(res.msg) & $('#myModal').modal('show') & $('#myName').val('') & $('#myPwd').val(''));
         }
-        $('#btnLogin').click(function() {
-            getLogin();
-        })
-        $(window).keydown(function(e) {
+        $('#btnLogin').click(() => getLogin())
+        $(window).keydown(e => {
             if (e.keyCode == 13) {
                 getLogin();
             }
-
         })
     </script>
 </body>

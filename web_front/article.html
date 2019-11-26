@@ -267,14 +267,19 @@
             $('#artical_date').html(res.data.date);
             // $('#artical_type').html(res.data.type);
             $('#artical_content').html(res.data.content);
+            console.log(res);
+
 
             // 获取当前文章类型的id值
             var typeId = res.data.type;
+            console.log(typeId);
+
             // 发送请求获取所有文章类型
             category.show(function(res) {
                 // 循环遍历所有文章
                 var result = res.data.find(function(item) {
                     // 判断找到与当前文章类别id相同的文章，则表示找到此文章
+
                     if (item.id == typeId) {
                         return true;
                     }
@@ -316,7 +321,6 @@
                     res.data.forEach(function(item) {
                         // 评论区时间显示
                         item.relativeDt = dayjs(item.dt).fromNow()
-
                     })
                     $('#commentContainer').html(template('temp_comment', res))
                 }
@@ -330,12 +334,18 @@
             if (res.code == 200) {
                 res.data.reverse();
                 res.data.forEach(function(item) {
+
                     // 评论区时间显示
                     item.relativeDt = dayjs(item.dt).fromNow()
-                        // 评论区时间显示
+                        // 最新评论区时间显示
                     item.time = dayjs(item.dt).format("MM-DD");
                 })
-                $('#newComment').html(template('temp_newComment', res))
+                if (res.data.length > 6) {
+                    res.data.length = 6
+                    $('#newComment').html(template('temp_newComment', res))
+                } else {
+                    $('#newComment').html(template('temp_newComment', res))
+                }
             }
         })
     </script>

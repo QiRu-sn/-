@@ -20,5 +20,13 @@ var comment = {
                 callback(res);
             }
         )
+    },
+    search: function(callback) {
+        $.get(
+            baseUrl.commentShow,
+            function(res) {
+                callback(res);
+            }
+        )
     }
 }

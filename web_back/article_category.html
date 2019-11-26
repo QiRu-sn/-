@@ -192,37 +192,35 @@
         {{/each}}
     </script>
     <script>
-        getCategory();
         // 将文章类别信息数据读取并添加至页面函数
-        function getCategory() {
-            category.show(function(res) {
+        let getCategory = () =>
+            category.show(res => {
                 if (res.code == 200) {
                     $('#categoryContainer').html(template('temp', res));
                 }
             })
-        }
+        getCategory();
 
         // 删除文章类别
         $('#categoryContainer').on('click', '.del', function() {
             if (window.confirm('您确定要删除吗？') == false) {
                 return;
             }
-            var id = $(this).attr('data-id');
-            category.del(id, function(res) {
+            let id = $(this).attr('data-id');
+            category.del(id, res => {
                 res.code == 200 ? getCategory() : $('#delModal').modal('show') & $('#tishi').text(res.msg);
             })
         })
 
         // 新增分类
-        $('#model_add').click(function() {
-                var name = $('#category-name').val().trim();
-                var slug = $('#category-slug').val().trim();
+        $('#model_add').click(() => {
+                let name = $('#category-name').val().trim();
+                let slug = $('#category-slug').val().trim();
                 if (name == '' || slug == '') {
                     alert('输入不能为空')
                     return;
                 }
-                category.add(name, slug, function(res) {
-                    console.log(res);
+                category.add(name, slug, res => {
                     if (res.code == 200) {
                         getCategory();
                         $('#category-name').val('');
@@ -236,7 +234,7 @@
                 })
             })
             // 关闭按钮
-        $('.model_shutoff').click(function() {
+        $('.model_shutoff').click(() => {
             $('#category-name').val('');
             $('#category-slug').val('');
             $('#addModal').modal('hide');
@@ -248,24 +246,24 @@
                 // 显示编辑模态框
                 $('#editModal').modal('show');
                 // 获取参数
-                var id = $(this).attr('data-id');
-                var name = $(this).attr('data-name');
-                var slug = $(this).attr('data-slug');
+                let id = $(this).attr('data-id');
+                let name = $(this).attr('data-name');
+                let slug = $(this).attr('data-slug');
                 // 编辑模态框中显示当前内容
                 $('#cate-id').val(id);
                 $('#cate-name').val(name);
                 $('#cate-slug').val(slug);
             })
             // 点击保存按钮完成编辑
-        $('#model_edit').click(function() {
-            var id = $('#cate-id').val().trim();
-            var name = $('#cate-name').val().trim();
-            var slug = $('#cate-slug').val().trim();
+        $('#model_edit').click(() => {
+            let id = $('#cate-id').val().trim();
+            let name = $('#cate-name').val().trim();
+            let slug = $('#cate-slug').val().trim();
             if (name == '' || slug == '') {
                 alert('输入不能为空');
                 return;
             }
-            category.edit(id, name, slug, function(res) {
+            category.edit(id, name, slug, res => {
                 if (res.code == 200) {
                     getCategory();
                     $('#editModal').modal('hide');

@@ -92,18 +92,18 @@
     </script>
     <script>
         // 文章类别下拉列表获取信息
-        category.show(function(res) {
+        category.show(res => {
             if (res.code == 200) {
                 $('#cate_sel').html(template('temp', res));
             }
         })
-        $('#btnAdd').click(function() {
-            var fd = new FormData(document.getElementById('myform'));
+        $('#btnAdd').click(() => {
+            let fd = new FormData(document.getElementById('myform'));
             // 手动添加文章状态
             fd.append('state', '已发布')
                 // 获取富文本编辑的内容
             fd.set('content', tinyMCE.activeEditor.getContent())
-            article.add(fd, function(res) {
+            article.add(fd, res => {
                 if (res.code == 201) {
                     alert('发布成功');
                     window.location.href = './article_list.html';
@@ -116,9 +116,9 @@
 
         // 文章封面上传图片预览
         $('#exampleInputFile').change(function() {
-            var file = this.files[0];
+            let file = this.files[0];
             if (file) {
-                var url = URL.createObjectURL(file);
+                let url = URL.createObjectURL(file);
                 $('#coverImg').prop('src', url);
                 $('#coverImg').css('display', 'block');
             }

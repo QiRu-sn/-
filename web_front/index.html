@@ -159,8 +159,8 @@
             </div>
             <div class="common_wrap">
                 <h3><i class="fa fa-commenting-o"></i> 最新评论</h3>
-                <ul class="content_list comment_list">
-                    <li>
+                <ul class="content_list comment_list" id='newComment'>
+                    <!-- <li>
                         <span>山</span>
                         <b><em>山治</em> 9个月前(08-14)说:</b>
                         <strong>挺会玩的</strong>
@@ -189,7 +189,7 @@
                         <span>乔</span>
                         <b><em>乔峰</em> 9个月前(08-14)说:</b>
                         <strong>挺会玩的</strong>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
             <div class="common_wrap">
@@ -225,6 +225,11 @@
     <script src="./js/utils/config.js"></script>
     <script src="./js/utils/category.js"></script>
     <script src="./js/utils/article.js"></script>
+    <script src="./js/utils/comment.js"></script>
+
+    <script src="./js/dayjs/dayjs.min.js"></script>
+    <script src="./js/dayjs/relative.min.js"></script>
+    <script src="./js/dayjs/zh_cn.js"></script>
     <!-- 导航区域菜单模板引擎 -->
     <script type="text/html" id="temp_nav">
         {{each data item}}
@@ -248,7 +253,23 @@
         {{/if}} {{/each}}
     </script>
 
+    <!-- 最新评论区域模板引擎 -->
+    <script type="text/html" id="temp_newComment">
+        {{each data item}}
+        <li>
+            <span>{{item.name.substr(0,1)}}</span>
+            <b><em>{{item.name}}</em> {{item.relativeDt}}({{item.time}})说:</b>
+            <strong>{{item.content}}</strong>
+        </li>
+        {{/each}}
+    </script>
+
     <script>
+        // dayjs使用
+        dayjs.extend(dayjs_plugin_relativeTime);
+        // dayjs设置语言
+        dayjs.locale('zh-cn');
+
         // 页面导航菜单区域内容数据读取显示
         category.show(function(res) {
                 if (res.code == 200) {
@@ -261,6 +282,23 @@
             console.log(res);
             if (res.code == 200) {
                 $('#focusContainer').html(template('temp_focus', res));
+            }
+        })
+
+        // 最新评论显示区域
+        comment.search(function(res) {
+            if (res.code == 200) {
+                res.data.reverse();
+                res.data.forEach(function(item) {
+                    // 评论区时间显示
+                    item.relativeDt = dayjs(item.dt).fromNow()
+                        // 评论区时间显示
+                    item.time = dayjs(item.dt).format("MM-DD");
+                })
+                if (res.data.length > 6) {
+                    res.data.length = 6
+                    $('#newComment').html(template('temp_newComment', res));
+                }
             }
         })
     </script>

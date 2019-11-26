@@ -1,44 +1,36 @@
-var category = {
+const category = {
     // 文章类别页面加载读取数据
-    show: function(callback) {
+    show: callback =>
         $.get(
             baseUrl.categoryShow,
-            function(res) {
-                callback(res);
-            }
-        )
-    },
-    del: function(id, callback) {
+            res =>
+            callback(res)
+        ),
+    del: (id, callback) =>
         $.post(
             baseUrl.categoryDel, { 'id': id },
-            function(res) {
-                callback(res);
-            }
-        )
-    },
-    add: function(name, slug, callback) {
+            res =>
+            callback(res)
+        ),
+    add: (name, slug, callback) =>
         $.post(
             baseUrl.categoryAdd, {
                 'name': name,
                 'slug': slug,
             },
-            function(res) {
-                callback(res);
-            }
-        )
-    },
-    edit: function(id, name, slug, callback) {
+            res =>
+            callback(res)
+        ),
+    edit: (id, name, slug, callback) =>
         $.post(
             baseUrl.categoryEdit, {
                 "id": id,
                 'name': name,
                 "slug": slug,
             },
-            function(res) {
-                callback(res);
-
-            }
+            res =>
+            callback(res)
         )
-    }
+
 
 }

@@ -125,22 +125,19 @@
         {{/each}}
     </script>
     <script>
-        // 文章页面展示基础功能
-        getAndShow();
-
         // 当前显示第几页
-        var curPage = '';
+        let curPage = '';
         // 文章类型
-        var type = '';
+        let type = '';
         // 文章状态
-        var status = '';
+        let status = '';
         // 当前总页数
-        var curTotalPage = '';
+        let curTotalPage = '';
 
-        var id = '';
+        let id = '';
 
-        function getAndShow() {
-            article.show(curPage, type, status, function(res) {
+        let getAndShow = () => {
+            article.show(curPage, type, status, res => {
                 // console.log(res);
 
                 if (res.code == 200) {
@@ -162,7 +159,7 @@
                         prev: '上一页',
                         next: '下一页',
                         last: '尾页',
-                        onPageClick: function(event, page) {
+                        onPageClick: (event, page) => {
                             // alert(page)
                             curPage = page;
                             getAndShow();
@@ -171,8 +168,11 @@
                 }
             })
         }
+
+        // 文章页面展示基础功能
+        getAndShow();
         // 文章列表筛选功能
-        $('#btnSearch').click(function() {
+        $('#btnSearch').click(() => {
             type = $("#selCategory").val();
             status = $("#selStatus").val();
             curPage = 1;
@@ -186,8 +186,8 @@
             if (window.confirm('您确定要删除吗？ ') == false) {
                 return;
             }
-            var id = $(this).attr('data-id');
-            article.del(id, function(res) {
+            let id = $(this).attr('data-id');
+            article.del(id, res => {
                 if (res.code == 200) {
                     getAndShow();
                 } else {
@@ -197,8 +197,8 @@
         })
 
         // 文章所有分类下拉菜单显示
-        category.show(function(res) {
-            $('#selCategory').html(template('art_sel', res));
+        category.show(res => {
+            $('#selCategory').html(template('art_sel', res))
         })
     </script>
 
